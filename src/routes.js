@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import User from './app/models/User';
 
 const routes = new Router();
 
-routes.get('/', (req, res) => {
-  res.json({ message: 'hello matheus' });
+routes.get('/', async (req, res) => {
+  const users = await User.findAll();
+  res.json(users);
 });
 
 export default routes;
