@@ -27,6 +27,14 @@ class RecipientController {
   }
 
   async show(req, res) {
+    const schema = Yup.object().shape({
+      id: Yup.number().positive(),
+    });
+
+    if (!(await schema.isValid({ ...req.params }))) {
+      return res.status(400).json({ error: 'Data validation fails' });
+    }
+
     const recipient = await Recipient.findByPk(req.params.id);
     if (!recipient) {
       return res.status(404).json({ error: 'Recipient does not exists' });
@@ -50,9 +58,10 @@ class RecipientController {
       city: Yup.string().when('state', (zip_code, field) =>
         zip_code ? field.required() : field
       ),
+      id: Yup.number().positive(),
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (!(await schema.isValid({ ...req.body, ...req.params }))) {
       return res.status(400).json({ error: 'Data validation fails' });
     }
 
@@ -65,6 +74,14 @@ class RecipientController {
   }
 
   async delete(req, res) {
+    const schema = Yup.object().shape({
+      id: Yup.number().positive(),
+    });
+
+    if (!(await schema.isValid({ ...req.params }))) {
+      return res.status(400).json({ error: 'Data validation fails' });
+    }
+
     const recipient = await Recipient.destroy({
       where: {
         id: req.params.id,
