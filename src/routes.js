@@ -10,6 +10,8 @@ import DeliverymansController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
 import StartDeliveryController from './app/controllers/StartDeliveryController';
 import FinalizeDeliveryController from './app/controllers/FinalizeDeliveryController';
+import ProblemController from './app/controllers/ProblemController';
+import ProblematicDeliveriesController from './app/controllers/ProblematicDeliveriesController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -36,6 +38,13 @@ routes.put(
   FinalizeDeliveryController.update
 );
 
+// Problems routes
+routes.post('/deliveries/:deliveryId/problems', ProblemController.store);
+routes.get('/deliveries/:deliveryId/problems', ProblemController.index);
+
+// upload image route
+routes.post('/files', upload.single('file'), FileController.store);
+
 // Authentication Middleware
 routes.use(authMiddleware);
 
@@ -59,6 +68,12 @@ routes.get('/deliveries/:id', DeliveryController.show);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
 
-routes.post('/files', upload.single('file'), FileController.store);
+// deliveris with problems
+routes.get('/problematic-deliveries', ProblematicDeliveriesController.index);
+// cancel delivery route
+routes.delete(
+  '/problem/:problemId/cancel-delivery',
+  ProblematicDeliveriesController.delete
+);
 
 export default routes;

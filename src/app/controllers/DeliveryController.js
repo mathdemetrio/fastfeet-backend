@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import Delivery from '../models/Delivery';
 import File from '../models/File';
 import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
+import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryController {
   async store(req, res) {
@@ -26,44 +28,57 @@ class DeliveryController {
   }
 
   async index(req, res) {
-    return res.json(
-      await Delivery.findAll({
-        attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
-        include: [
-          {
-            model: File,
-            as: 'signature',
-            attributes: ['id', 'name', 'path', 'url'],
-          },
-          {
-            model: Recipient,
-            as: 'recipient',
-            attributes: [
-              'id',
-              'name',
-              'address_street',
-              'address_number',
-              'address_complement',
-              'state',
-              'city',
-              'zip_code',
-            ],
-          },
-          {
-            model: Deliveryman,
-            as: 'deliveryman',
-            attributes: ['id', 'name', 'email'],
-            include: [
-              {
-                model: File,
-                as: 'avatar',
-                attributes: ['id', 'name', 'path', 'url'],
-              },
-            ],
-          },
-        ],
-      })
-    );
+    const queryConfig = {
+      attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
+      include: [
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['id', 'name', 'path', 'url'],
+        },
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'id',
+            'name',
+            'address_street',
+            'address_number',
+            'address_complement',
+            'state',
+            'city',
+            'zip_code',
+          ],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['id', 'name', 'email'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'name', 'path', 'url'],
+            },
+          ],
+        },
+        {
+          model: DeliveryProblem,
+          as: 'problems',
+          attributes: ['id', 'description'],
+        },
+      ],
+    };
+
+    if (req.query.canceled && req.query.canceled === 'true') {
+      queryConfig.where = {
+        canceled_at: {
+          [Op.ne]: null,
+        },
+      };
+    }
+
+    return res.json(await Delivery.findAll(queryConfig));
   }
 
   async show(req, res) {
@@ -108,6 +123,11 @@ class DeliveryController {
               attributes: ['id', 'name', 'path', 'url'],
             },
           ],
+        },
+        {
+          model: DeliveryProblem,
+          as: 'problems',
+          attributes: ['id', 'description'],
         },
       ],
     });
