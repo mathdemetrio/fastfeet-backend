@@ -1,6 +1,5 @@
 <p align=center><img style='max-width: 300px;' src='.github/logofastfeet.png'></p>
 <h2 align='center'>Desafio GoStack - API FastFeet</h2>
-<hr>
 <p>O desafio consiste em criar uma API completa para gerenciamento de entregas de encomendas. Algumas das funcionalidaeds são:</p>
 <ul>
   <li>CRUD de usuário administrador da transportadora;</li>
@@ -16,7 +15,6 @@
 </ul>
 <br>
 <h2>Tecnologias e bibliotecas utilizadas:</h2>
-<hr>
 <ul>
   <li>Express</li>
   <li>Postgres</li>
@@ -38,7 +36,6 @@
 </ul>
 <br>
 <h2>Executando e configurando a aplicação:</h2>
-<hr>
 <h3>Criando container <b>Docker</b> para Postgres e Redis:</h3>
 <ul>
   <li>docker run --name database -e POSTGRES_PASSWORD=password_here -p 5432:5432 -d postgres</li>
@@ -53,7 +50,6 @@
 </ul>
 <br>
 <h2>Sugestões de ferramentas auxiliares para desenvolvimento e produção:</h2>
-<hr>
 <ul>
   <li>Insomnia - Para simular requisições a API;</li>
   <li>Postbird - Visualizar banco de dados Postgres;</li>
