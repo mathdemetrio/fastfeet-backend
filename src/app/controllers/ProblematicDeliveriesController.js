@@ -1,6 +1,9 @@
 import { Op } from 'sequelize';
 import Delivery from '../models/Delivery';
 import DeliveryProblem from '../models/DeliveryProblem';
+import Deliveryman from '../models/Deliveryman';
+import Queue from '../../lib/Queue';
+import CancelDeliveryMail from '../jobs/CancelDeliveryMail';
 
 class ProblematicDeliveriesController {
   async index(req, res) {
@@ -30,7 +33,7 @@ class ProblematicDeliveriesController {
       res.status(400).json({ error: 'Delivery problem not found.' });
     }
 
-    const delivery = await Delivery.update(
+    const deliveryList = await Delivery.update(
       { canceled_at: new Date() },
       {
         returning: true,
@@ -38,7 +41,17 @@ class ProblematicDeliveriesController {
       }
     );
 
-    return res.json(delivery);
+    const delivery = deliveryList[1][0]; // sequelize update() returns a list of deliverires
+    const deliveryman = await Deliveryman.findByPk(delivery.deliveryman_id);
+
+    await Queue.add(CancelDeliveryMail.key, {
+      delivery,
+      deliveryman,
+    });
+
+    return res.json({
+      message: `Delivery ${delivery.id} cancelled with success`,
+    });
   }
 }
 
