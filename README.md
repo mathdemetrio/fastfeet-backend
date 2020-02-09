@@ -1,6 +1,6 @@
 <p align=center><img style='max-width: 300px;' src='.github/logofastfeet.png'></p>
 <h2 align='center'>Desafio GoStack - API FastFeet</h2>
-<p>O desafio consiste em criar uma API completa para gerenciamento de entregas de encomendas. Algumas das funcionalidaeds são:</p>
+<p>O desafio consiste em criar uma API completa para gerenciamento de entregas de encomendas. Algumas das funcionalidades são:</p>
 <ul>
   <li>CRUD de usuário administrador da transportadora;</li>
   <li>Autenticação do administrador utilizando JWT;</li>
@@ -22,14 +22,10 @@
   <li>sequelize</li>
   <li>jsonwebtoken</li>
   <li>nodemailer</li>
-  <li>nodemailer-express-handlebars</li>
-  <li>express-handlebars</li>
   <li>bee-queue</li>
   <li>sentry</li>
   <li>bcryptjs</li>
-  <li>express-async-errors</li>
   <li>multer</li>
-  <li>date-fns</li>
   <li>dotenv</li>
   <li>youch</li>
   <li>yup</li>
@@ -51,8 +47,8 @@
 <br>
 <h2>Sugestões de ferramentas auxiliares para desenvolvimento e produção:</h2>
 <ul>
-  <li>Insomnia - Para simular requisições a API;</li>
+  <li>Insomnia - Utilizado para simular requisições à API;</li>
   <li>Postbird - Visualizar banco de dados Postgres;</li>
-  <li>Sentry - Visualizador e gerenciador de erros da aplicação - Muito útil quando em produção;</li>
-  <li>Mailtrap para teste de envio e recebimento de e-mails;</li>
+  <li>Sentry - Visualizador e gerenciador de erros da aplicação - muito útil quando em produção;</li>
+  <li>Mailtrap - Utilizado para teste de envio e recebimento de e-mails;</li>
 </ul>
